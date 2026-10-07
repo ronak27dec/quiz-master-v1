@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/top-bar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/floating-button.css') }}">
+</head>
+<body>
+
+{% include 'top_bar.html' %}
+
+
+<div class="table-container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+    {% if quizzes %}
+    {% for data in quiz_data %}
+    <tr {% if not user.is_admin and data.quiz.quiz_date <= current_date %}style="pointer-events: none; opacity: 0.5;"{% else
+    %}onclick="window.location.href='{% if user.is_admin %}{{ url_for('question_controller.question', quiz_id=data.quiz.id) }}{% else %}{{ url_for('question_controller.user_question', quiz_id=data.quiz.id) }}{% endif %}'" style="cursor: pointer;"{% endif %}>
+        <td>
+            <div class="card-row ">
+                <div class="card-content">
+                    <h4>{{ data.quiz.quiz_name }}</h4>
+                    <p><strong>Due Date:</strong> {{ data.quiz.quiz_date }}</p>
+                    <p><strong>Duration:</strong> {{ data.quiz.quiz_duration }} mins</p>
+                    <p><strong>Total questions:</strong> {{data.num_questions}}</p>
+                </div>
+                {% if user.is_admin %}
+                <div class="card-actions">
+                    <form action="/edit-quiz/{{ data.quiz.id }}" method="GET">
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form action="/delete-quiz/{{ data.quiz.id }}" method="POST">
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="card-actions">
+                    <form action="/user-question/{{ data.quiz.id }}" method="GET">
+                        <button type="submit">Start quiz</button>
+                    </form>
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <p>No Quiz available for {{ chapter.chapter_name }}.</p>
+    {% endif %}
+</tbody>
+    </table>
+</div>
+{% if user.is_admin %}
+<div class="floating-btn">
+    <a href="/create-quiz/{{ chapter.id }}" class="btn">
+        <img src="/static/images/add-icon.png" alt="Add Subject">
+    </a>
+</div>
+{% endif %}
+</body>
+</html>

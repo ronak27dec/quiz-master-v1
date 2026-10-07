@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/top-bar.css') }}">
+</head>
+<body>
+
+{% include 'top_bar.html' %}
+
+
+<div class="table-container">
+    {% if scores %}
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        {% for score in scores %}
+        <tr>
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ score.subject_name }}</h4>
+                        <p><strong>Chapter:</strong> {{ score.chapter_name }}</p>
+                        <p><strong>Quiz:</strong> {{ score.quiz.quiz_name }}</p>
+                        <p><strong>Date Attempted:</strong> {{ score.time_stamp_of_attempt.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        <p><strong>Score:</strong> {{ score.total_correct_answer }}/{{ score.total_questions }}</p>
+                        <p><strong>Percentage:</strong> {{ score.percentage_score }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    {% else %}
+    <p>No quiz attempted.</p>
+    {% endif %}
+</div>
+</body>
+</html>

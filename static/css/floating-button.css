@@ -1,0 +1,19 @@
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.floating-btn .btn {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 50%;
+    text-decoration: none;
+}
+
+.floating-btn .btn img {
+    display: block;
+    width: 70px;
+    height: 70px;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/top-bar.css') }}">
+</head>
+<body>
+
+{% include 'top_bar.html' %}
+
+
+<div class="table-container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        {% if all_user %}
+        {% for user_item in all_user %}
+        {% if not user_item.is_admin %}
+        <tr onclick="window.location.href='{{ url_for('user_controller.user_details', user_id=user_item.id) }}'" style="cursor: pointer;">
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ user_item.full_name }}</h4>
+                        <p><strong>Email:</strong> {{ user_item.email }}</p>
+                        <p><strong>Qualification:</strong> {{ user_item.qualification }}</p>
+                        <p><strong>DOB:</strong> {{ user_item.dob }}</p>
+                        <p><strong>Number of Quiz Attempted:</strong> {{ total_attempts.get(user_item.id, 0) }}</p>
+                    </div>
+                    <div class="card-actions">
+                        <form action="/user-flag/{{ user_item.id }}" method="POST">
+                            <button type="submit">
+                                {% if user_item.is_flagged %}
+                                UnBlock
+                                {% else %}
+                                Block
+                                {% endif %}
+                            </button>
+                        </form>
+                        <form action="/user-summary/{{ user_item.id }}" method="GET">
+                            <button type="submit">Summary</button>
+                        </form>
+                        <form action="/user-delete/{{ user_item.id }}" method="POST">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="8">No users found.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    {% if all_user %}
+    <div class="card-actions" style="display: flex; justify-content: center; align-items: center;">
+        <form action="/user-statistics" method="GET">
+            <button type="submit" style="font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 400;">
+                Statistics
+            </button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

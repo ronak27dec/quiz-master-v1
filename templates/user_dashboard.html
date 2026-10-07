@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/top-bar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/floating-button.css') }}">
+</head>
+<body>
+
+{% include 'top_bar.html' %}
+
+<div class="table-container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        {% for subject in subjects %}
+        <tr onclick="window.location.href='{{ url_for('chapter_controller.chapters', subject_id=subject.id) }}'" style="cursor: pointer;">
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ subject.subject_name }} - {{ subject.subject_description }}</h4>
+                        {% for chapter in subject.chapters %}
+                        <p><strong>{{ chapter.chapter_name }}:</strong> {{ chapter.chapter_description }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+{% if user.is_admin %}
+<div class="floating-btn">
+    <a href="/create-chapter/{{subject.id}}" class="btn">
+        <img src="/static/images/add-subject-icon.png" alt="Add Subject">
+    </a>
+</div>
+{% endif %}
+</body>
+</html>

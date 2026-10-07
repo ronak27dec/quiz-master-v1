@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/top-bar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/floating-button.css') }}">
+
+</head>
+<body>
+
+{% include 'top_bar.html' %}
+
+
+<div class="table-container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        <h3>User Details</h3>
+        <tr>
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{user.full_name}}</h4>
+                        <p>{{user.email}}</p>
+                        <p>{{user.qualification}}</p>
+                        <p>{{user.dob}}</p>
+                    </div>
+                    <div class="card-actions">
+                        <form action="/change-password/{{user.id}}" method="GET">
+                            <button type="submit">Password</button>
+                        </form>
+
+                        <form action="/user-summary/{{ user.id }}" method="POST">
+                            <button type="submit">Summary</button>
+                        </form>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div class="table-container">
+    {% if scores %}
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        <h3>Quizzes Attempted</h3>
+        {% for score in scores %}
+        <tr>
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ score.quiz.quiz_name }}</h4>
+                        <p><strong>Subject:</strong> {{score.subject_name }}</p>
+                        <p><strong>Chapter:</strong> {{score.chapter_name}}</p>
+                        <p><strong>Date Attempted:</strong> {{score.time_stamp_of_attempt.strftime('%Y-%m-%d')}}</p>
+                        <p><strong>Score:<strong></strong> {{score.total_correct_answer }}/{{score.total_questions}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    {% else %}
+    <h3>No quiz attempted</h3>
+    {% endif %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0">
+        <title>Chapters</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              type="text/css"
+              href="{{ url_for('static', filename='css/list.css') }}">
+        <link rel="stylesheet"
+              type="text/css"
+              href="{{ url_for('static', filename='css/top-bar.css') }}">
+        <link rel="stylesheet"
+              type="text/css"
+              href="{{ url_for('static', filename='css/floating-button.css') }}">
+    </head>
+
+    <body>
+
+        {% include 'top_bar.html' %}
+
+        <div class="table-container">
+            <table>
+                <thead>
+                </thead>
+                <tbody>
+                    {% if subject.chapters %}
+                    {% for chapter in subject.chapters %}
+                    <tr onclick="window.location.href='{{ url_for('quiz_controller.quiz', chapter_id=chapter.id) }}'"
+                        style="cursor: pointer;">
+                        <td>
+                            <div class="card-row">
+                                <div class="card-content">
+                                    <h4>{{ chapter.chapter_name }} - {{ chapter.chapter_description }}</h4>
+                                    {% for quiz in chapter.quizzes %}
+                                    <p><strong>{{ quiz.quiz_name }}:</strong> {{ quiz.quiz_date }}</p>
+                                    {% endfor %}
+                                </div>
+                                {% if user.is_admin %}
+                                <div class="card-actions">
+                                    <form action="/edit-chapter/{{ chapter.id }}"
+                                          method="GET">
+                                        <button type="submit">Edit</button>
+                                    </form>
+
+                                    <form action="/delete-chapter/{{ chapter.id }}"
+                                          method="POST">
+                                        <button type="submit"
+                                                class="delete-button">Delete</button>
+                                    </form>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p>No chapters available for {{subject.subject_name}}.</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        {% if user.is_admin %}
+        <div class="floating-btn">
+            <a href="/create-chapter/{{subject.id}}"
+               class="btn">
+                <img src="/static/images/add-icon.png"
+                     alt="Add Subject">
+            </a>
+        </div>
+        {% endif %}
+
+    </body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/top-bar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/floating-button.css') }}">
+</head>
+<body>
+
+{% include 'top_bar.html' %}
+
+<div class="container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        {% if quiz.questions %}
+        {% for question in quiz.questions %}
+        <tr>
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ question.question_title }}</h4>
+                        <p>A: {{ question.option_a }}</p>
+                        <p>B: {{ question.option_b }}</p>
+                        <p>C: {{ question.option_c }}</p>
+                        <p>D: {{ question.option_d }}</p>
+                        <p>Correct Answer: {{ question.correct_option }}</p>
+                    </div>
+                    <div class="card-actions">
+                        <form action="/edit-question/{{ question.id }}" method="GET">
+                            <button type="submit">Edit</button>
+                        </form>
+
+                        <form action="/delete-question/{{ question.id }}" method="POST">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        {% else %}
+        <p>No questions available.</p>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<div class="floating-btn">
+    <a href="/create-question/{{quiz.id}}" class="btn">
+        <img src="/static/images/add-icon.png" alt="Add Question">
+    </a>
+</div>
+</body>
+</html>

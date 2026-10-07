@@ -1,0 +1,110 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.table-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    table-layout: fixed;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    word-wrap: break-word;
+    box-sizing: border-box;
+}
+
+th {
+    background-color: #2F4F4F;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    padding: 12px 20px;
+    width: 100%;
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+td {
+    padding: 0;
+    border: none;
+}
+
+.card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-content h4 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.card-content p {
+    margin: 0;
+    color: #777;
+    font-size: 16px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 50px;
+}
+
+.card-actions button, .card-actions a {
+    padding: 8px 15px;
+    background-color: #2F4F4F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100px;
+    height: 40px;
+    text-decoration: none;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-actions .delete-button {
+    background-color: #e74c3c;
+}
+
+.disabled {
+    background-color: #d3d3d3;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.disabled .card-actions {
+    display: none;
+}
+
+.disabled .card-link {
+    pointer-events: none;
+}

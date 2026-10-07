@@ -1,0 +1,31 @@
+<div class="top-bar">
+    <div class="welcome-message">
+        <p>Welcome, {{ user.full_name }}</p>
+    </div>
+    <div class="search-bar">
+        <form method="GET" action="/search">
+            <input type="text" id="search" name="query" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+        {% if user.is_admin %}
+        <form action="/admin-dashboard" method="POST">
+            <button type="submit">Dashboard</button>
+        </form>
+        {% else %}
+        <form action="/user-dashboard" method="POST">
+            <button type="submit">Dashboard</button>
+        </form>
+        <form action="/user-profile" method="POST">
+            <button type="submit">Profile</button>
+        </form>
+        {% endif %}
+        {% if user.is_admin %}
+        <form action="/users" method="POST">
+            <button type="submit">Users</button>
+        </form>
+        {% endif %}
+        <form action="/logout" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>

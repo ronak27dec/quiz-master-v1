@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/top-bar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/floating-button.css') }}">
+
+</head>
+<body>
+
+{% include 'top_bar.html' %}
+
+{% if query %}
+
+{% if users and user.is_admin %}
+<h3>Users</h3>
+<div class="table-container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        <tr onclick="window.location.href='{{ url_for('user_controller.users') }}'" style="cursor: pointer;">
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ user.full_name }}</h4>
+                        <p>{{ user.qualification }}</p>
+                        <p>{{ user.email }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+
+{% if subjects %}
+<h3>Subjects</h3>
+<div class="table-container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        {% for subject in subjects %}
+        <tr onclick="window.location.href='{{ url_for('dashboard_controller.' + ('admin_dashboard' if user.is_admin else 'user_dashboard')) }}'"
+            style="cursor: pointer;">
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ subject.subject_name }}</h4>
+                        <p>{{ subject.subject_description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+
+{% if chapters %}
+<h3>Chapters</h3>
+<div class="table-container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        {% for chapter in chapters %}
+        <tr onclick="window.location.href='{{ url_for('chapter_controller.chapters', subject_id=chapter.subject_id) }}'" style="cursor: pointer;">
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ chapter.chapter_name }}</h4>
+                        <p>{{ chapter.chapter_description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+
+{% if quizzes %}
+<h3>Quizzes</h3>
+<div class="table-container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        {% for quiz in quizzes %}
+        <tr onclick="window.location.href='{{ url_for('quiz_controller.quiz', chapter_id=quiz.chapter_id) }}'" style="cursor: pointer;">
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ quiz.quiz_name }}</h4>
+                        <p>Due Date: {{ quiz.quiz_date }}</p>
+                        <p>Duration: {{ quiz.quiz_duration }}</p>
+                        <p>Remarks: {{ quiz.quiz_remark }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if questions and user.is_admin %}
+<h3>Questions</h3>
+<div class="table-container">
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        {% for question in questions %}
+        <tr onclick="window.location.href='{{ url_for('question_controller.question', quiz_id=question.quiz_id) }}'" style="cursor: pointer;">
+            <td>
+                <div class="card-row">
+                    <div class="card-content">
+                        <h4>{{ question.question_title }}</h4>
+                        <p>A: {{ question.option_a }}</p>
+                        <p>B: {{ question.option_b }}</p>
+                        <p>C: {{ question.option_c }}</p>
+                        <p>D: {{ question.option_d }}</p>
+                        <p>Correct Answer: {{ question.correct_option }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if not users and not subjects and not chapters and not quizzes and not questions and not scores %}
+<p>No results found for the search query.</p>
+{% endif %}
+
+{% else %}
+<p>No query provided. Please enter a search term.</p>
+{% endif %}
+
+</body>
+</html>

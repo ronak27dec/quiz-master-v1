@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0">
+        <title>Add Questions</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              type="text/css"
+              href="{{ url_for('static', filename='css/create-form.css') }}">
+    </head>
+
+    <body>
+        <div class="form-container">
+            <form action="/create-question/{{quiz.id}}"
+                  method="POST">
+                <div class="form-group">
+                    <label for="title">Question Statement</label>
+                    <input type="text"
+                           id="title"
+                           name="title"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="option-a">Option A</label>
+                    <input type="text"
+                           id="option-a"
+                           name="option-a"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="option-b">Option B</label>
+                    <input type="text"
+                           id="option-b"
+                           name="option-b"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="option-c">Option C</label>
+                    <input type="text"
+                           id="option-c"
+                           name="option-c"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="option-d">Option D</label>
+                    <input type="text"
+                           id="option-d"
+                           name="option-d"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="correct-option">Correct Answer</label>
+                    <input type="text"
+                           id="correct-option"
+                           name="correct-option"
+                           required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit"
+                            class="btn-login">Add New Question</button>
+                    <button type="button"
+                            class="btn-signup"
+                            onclick="window.location.href='/question/{{quiz.id}}'">Cancel</button>
+                </div>
+            </form>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="flash-message">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </body>
+
+</html>
